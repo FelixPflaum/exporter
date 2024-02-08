@@ -169,3 +169,21 @@ function Env.AddSpec(playerClass, spec, url, checkFunc)
         isCurrentSpec = checkFunc,
     })
 end
+
+-- TODO: WIP
+local LibDeflate = LibStub:GetLibrary("LibDeflate")
+local LibBase64 = LibStub("LibBase64-1.0")
+
+---Create URL for direct import into sim website.
+---@param simUrl string URL to the class sim this export is for.
+---@param exportType string Token to identify the type of export for the importer.
+---@param data string The payload data.
+---@return string importUrl
+function Env.CreateExportUrl(simUrl, exportType, data)
+    simUrl = simUrl .. "#WSE-" .. Env.VERSION .. "-" .. exportType .. "-"
+    local deflated = LibDeflate:CompressDeflate(data)
+    local based = LibBase64.Encode(deflated)
+    based = based:gsub("=", "_")
+    simUrl = simUrl .. based .. "-END"
+    return simUrl
+end

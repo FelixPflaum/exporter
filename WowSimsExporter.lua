@@ -90,6 +90,8 @@ Env.UI:SetOutputGenerator(function()
     local character = Env.CreateCharacter()
     character:SetUnit("player")
     local output = GenerateOutput(character)
+    local linkToSim = Env.prelink .. select(2, Env.GetSpec("player"))
+    print(Env.CreateExportUrl(linkToSim, "character", output))
     return output
 end)
 
